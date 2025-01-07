@@ -8,42 +8,42 @@ SECTIONS
 {
     . = BASE_ADDRESS;
 
-    skernel = .;
+    s_kernel = .;
 
-    stext = .;
+    s_text = .;
     .text : {
         *(.text.entry)
         *(.text .text.*)
     }
     . = ALIGN(4K);
-    etext = .;
+    e_text = .;
 
-    srodata = .;
+    s_rodata = .;
     .rodata : {
         *(.rodata .rodata.*)
-        *(.srodata .srodata.*)
+        *(.s_rodata .s_rodata.*)
     }
     . = ALIGN(4K);
-    erodata = .;
+    e_rodata = .;
 
-    sdata = .;
+    s_data = .;
     .data : {
         *(.data .data.*)
-        *(.sdata .sdata.*)
+        *(.s_data .s_data.*)
     }
     . = ALIGN(4K);
-    edata = .;
+    e_data = .;
 
     .bss : {
         *(.bss.stack)
-        sbss = .;
+        s_bss = .;
         *(.bss .bss.*)
-        *(.sbss .sbss.*)
+        *(.s_bss .s_bss.*)
     }
     . = ALIGN(4K);
-    ebss = .;
+    e_bss = .;
 
-    ekernel = .;
+    e_kernel = .;
 
     /DISCARD/ : {
         *(.eh_frame)

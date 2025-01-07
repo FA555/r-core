@@ -2,26 +2,6 @@ use log::{Metadata, Record};
 
 struct Logger;
 
-fn color_of_level(level: log::Level) -> &'static str {
-    match level {
-        log::Level::Error => "31",
-        log::Level::Warn => "93",
-        log::Level::Info => "34",
-        log::Level::Debug => "32",
-        log::Level::Trace => "90",
-    }
-}
-
-fn str_of_level(level: log::Level) -> &'static str {
-    match level {
-        log::Level::Error => "[ERROR]",
-        log::Level::Warn => " [WARN]",
-        log::Level::Info => " [INFO]",
-        log::Level::Debug => "[DEBUG]",
-        log::Level::Trace => "[TRACE]",
-    }
-}
-
 impl log::Log for Logger {
     fn enabled(&self, _metadata: &Metadata) -> bool {
         true
@@ -58,6 +38,7 @@ pub fn init(level_str: Option<&str>) {
                 Some("INFO") => log::LevelFilter::Info,
                 Some("DEBUG") => log::LevelFilter::Debug,
                 Some("TRACE") => log::LevelFilter::Trace,
+                Some("DISABLE") => log::LevelFilter::Off,
                 _ => log::LevelFilter::Info,
             })
         })
