@@ -6,6 +6,7 @@ mod sbi;
 #[macro_use]
 mod console;
 
+use crate::sbi::shutdown;
 use core::arch::global_asm;
 
 global_asm!(include_str!("entry.asm"));
@@ -14,19 +15,13 @@ global_asm!(include_str!("entry.asm"));
 pub fn rust_main() -> ! {
     clear_bss();
 
-    let x = 14;
-    println!("1{}5{}", x, x,);
-    print!("1{}", x,);
-    print!("5{}", x);
-    println!();
-
-    panic!("Shutdown through panicking!")
+    shutdown(false)
 }
 
 fn clear_bss() {
-    extern "C" {
-        fn sbss();
-        fn ebss();
+    unsafe extern "C" {
+        unsafe fn sbss();
+        unsafe fn ebss();
     }
 
     (sbss as usize..ebss as usize).for_each(|addr| unsafe { (addr as *mut u8).write_volatile(0) });
