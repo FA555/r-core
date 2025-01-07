@@ -5,17 +5,25 @@ mod lang_items;
 mod sbi;
 #[macro_use]
 mod console;
+mod logger;
 
 use crate::sbi::shutdown;
 use core::arch::global_asm;
+use log::{trace, debug, info, warn, error};
 
 global_asm!(include_str!("entry.asm"));
 
 #[no_mangle]
 pub fn rust_main() -> ! {
     clear_bss();
+    logger::init(option_env!("LOG_LEVEL"));
 
     println!("Hello, world!");
+    trace!("Hello, world!");
+    debug!("Hello, world!");
+    info!("Hello, world!");
+    warn!("Hello, world!");
+    error!("Hello, world!");
 
     shutdown(false)
 }
