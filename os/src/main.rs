@@ -15,7 +15,7 @@ use log::{info, trace};
 
 global_asm!(include_str!("entry.asm"));
 
-#[no_mangle]
+#[unsafe(no_mangle)]
 pub fn rust_main() -> ! {
     logger::init(option_env!("LOG_LEVEL"));
     trace!("Kernel booted");
