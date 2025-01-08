@@ -13,7 +13,9 @@ impl Write for Stdout {
 }
 
 pub fn print(args: fmt::Arguments) {
-    Stdout.write_fmt(args).expect("Error occurred during printing")
+    Stdout
+        .write_fmt(args)
+        .expect("Error occurred during printing.")
 }
 
 // #[macro_export]
