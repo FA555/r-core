@@ -55,10 +55,8 @@ disasm-vim: build
 	@vim $(DISASM_TMP)
 	@rm $(DISASM_TMP)
 
-run-inner: build
+run: build
 	@$(QEMU) $(QEMU_ARGS)
-
-run: run-inner
 
 gdbserver: build
 	@$(QEMU) $(QEMU_ARGS) -s -S
@@ -75,4 +73,4 @@ debug: build
 clean:
 	@cargo clean
 
-.PHONY: build env kernel clean disasm disasm-vim run-inner gdbserver gdbclient qemu-version-check
+.PHONY: build env kernel clean disasm disasm-vim run gdbserver gdbclient qemu-version-check
