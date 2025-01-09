@@ -132,11 +132,11 @@ On aarch64 macOS Sequoia 15.2 (24C101).
 
 = 第一章：应用程序与基本执行环境
 
-删掉 metadata，从 ELF 裁剪出系统镜像：
+// 删掉 metadata，从 ELF 裁剪出系统镜像：
 
-#fancy-raw(```sh
-rust-objcopy --strip-all target/riscv64gc-unknown-none-elf/release/os -O binary target/riscv64gc-unknown-none-elf/release/os.bin
-```)
+// #fancy-raw(```sh
+// rust-objcopy --strip-all target/riscv64gc-unknown-none-elf/release/os -O binary target/riscv64gc-unknown-none-elf/release/os.bin
+// ```)
 
 == 编码注意事项
 
@@ -144,8 +144,9 @@ rust-objcopy --strip-all target/riscv64gc-unknown-none-elf/release/os -O binary 
   #set raw(lang: "rs")
 
   - 教程中的内容与仓库中模板有一定区别，如需混用需要先阅读内容，避免造成不必要的损坏。
-  - Rust 2024 起 `no_mangle` 和 `link_section` 等过程宏被标记为 `unsafe`，可放心手动添加。
+  - Rust 1.82 添加了 #link("https://doc.rust-lang.org/nightly/edition-guide/rust-2024/unsafe-attributes.html")[unsafe attribute]，`no_mangle` 和 `link_section` 等过程宏需要被标记为 `unsafe`，可放心手动添加。
   - 教程中给出的 `print` 宏的实现能用但是繁杂；`println` 宏的实现处理不了空参数。自行阅读标准库实现可以写出更好的版本。
+  - 新版本 QEMU 的 #link("https://www.qemu.org/docs/master/system/generic-loader.html")[generic loader] 已经支持直接加载 ELF 文件，不再需要手动裁剪出纯二进制文件。
 ]
 
 == 调用栈知识清单问答
@@ -471,6 +472,21 @@ riscv64-elf-gdb \
   + 再倒一个栈帧，`sp` 指向 `[3]` 的栈帧。返回地址储存在 `sp + 8` 中，即 `<flip+18>`，因此 `[4] flip`。
 
   因此，根据给出的信息，我们可以复原出最顶层的 5 层调用信息。如果我们能够操作 gdb，那么可以通过查看调用栈内的内容复原整个调用栈，而不必须用到 `bt` 命令。
+]
+
+= 第二章：批处理系统
+
+
+== 实现应用程序
+
+=== 编码注意事项
+
+从这里开始，教程没有给出详尽的编码内容，需要自己学习。还是踩了很多坑的。
+
+#[
+  #set raw(lang: "rs")
+
+  - `panic_info_message` 在 Rust 1.81 后 stable 了，不再需要单独标记。
 ]
 
 #set heading(numbering: "A.1 ")
