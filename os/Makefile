@@ -72,5 +72,6 @@ debug: build
 
 clean:
 	@cargo clean
+	@rm src/linker.ld
 
 .PHONY: build env kernel clean disasm disasm-vim run gdbserver gdbclient qemu-version-check

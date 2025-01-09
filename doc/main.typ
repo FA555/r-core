@@ -132,11 +132,21 @@ On aarch64 macOS Sequoia 15.2 (24C101).
 
 = 第一章：应用程序与基本执行环境
 
-删掉 metadata，裁剪出系统镜像：
+删掉 metadata，从 ELF 裁剪出系统镜像：
 
 #fancy-raw(```sh
 rust-objcopy --strip-all target/riscv64gc-unknown-none-elf/release/os -O binary target/riscv64gc-unknown-none-elf/release/os.bin
 ```)
+
+== 编码注意事项
+
+#[
+  #set raw(lang: "rs")
+
+  - 教程中的内容与仓库中模板有一定区别，如需混用需要先阅读内容，避免造成不必要的损坏。
+  - Rust 2024 起 `no_mangle` 和 `link_section` 等过程宏被标记为 `unsafe`，可放心手动添加。
+  - 教程中给出的 `print` 宏的实现能用但是繁杂；`println` 宏的实现处理不了空参数。自行阅读标准库实现可以写出更好的版本。
+]
 
 == 调用栈知识清单问答
 
